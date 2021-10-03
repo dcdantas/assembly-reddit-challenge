@@ -3,6 +3,9 @@ import {getRedditPosts} from './RedditFeed.service'
 import debounce from 'lodash.debounce'
 import Modal from 'react-modal'
 
+Modal.setAppElement('#root');
+
+
 const RedditFeed = () => {
 
     //interface for post modal object typing
@@ -26,6 +29,8 @@ const RedditFeed = () => {
           transform: 'translate(-50%, -50%)',
         },
       };
+
+      
 
     //states for our componnet
     const [posts, setPosts] = useState([{}]);

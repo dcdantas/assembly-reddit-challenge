@@ -74,6 +74,19 @@ const RedditFeed = () => {
         setSelectedPost({});
     }
 
+    /* const filterPosts = (event:any) => {
+        const termToFilterOn : string = event.target.value;
+        setFilterTerm(termToFilterOn);
+        if(!termToFilterOn || termToFilterOn === ""){
+            setPosts(nonFilteredPosts);
+        }
+        else{
+            const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(termToFilterOn.toLowerCase()));
+            console.log('filtered posts is :' + filterPosts);
+            setPosts(filteredPosts);
+        }
+    } */
+
     //debounce function
     const filterPostsDebounceVersion = useCallback(
         debounce(filterTerm => {
@@ -83,10 +96,11 @@ const RedditFeed = () => {
             }
             else{
                 //filter for search term
-                const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(filterTerm.toLowerCase()));
+                const filteredTerm : string = filterTerm.toLowerCase();
+                const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(filteredTerm));
                 setPosts(filteredPosts);
             }
-        }, 1000)
+        }, 500)
     ,[]);
     
 

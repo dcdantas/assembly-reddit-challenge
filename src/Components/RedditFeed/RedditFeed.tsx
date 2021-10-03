@@ -34,7 +34,7 @@ const RedditFeed = () => {
 
     //states for our componnet
     const [posts, setPosts] = useState([{}]);
-    const [nonFilteredPosts, setNonFilteredPosts] = useState([{}]);
+    const [nonFilteredPosts, setNonFilteredPosts] = useState<PostModalObj[]>([{}]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState<PostModalObj>({});
     const [filterTerm, setFilterTerm] = useState("");
@@ -74,18 +74,6 @@ const RedditFeed = () => {
         setSelectedPost({});
     }
 
-    /* const filterPosts = (event:any) => {
-        const termToFilterOn : string = event.target.value;
-        setFilterTerm(termToFilterOn);
-        if(!termToFilterOn || termToFilterOn === ""){
-            setPosts(nonFilteredPosts);
-        }
-        else{
-            const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(termToFilterOn.toLowerCase()));
-            console.log('filtered posts is :' + filterPosts);
-            setPosts(filteredPosts);
-        }
-    } */
 
     //debounce function
     const filterPostsDebounceVersion = useCallback(
@@ -97,7 +85,8 @@ const RedditFeed = () => {
             else{
                 //filter for search term
                 const filteredTerm : string = filterTerm.toLowerCase();
-                const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(filteredTerm));
+                //doing (post.titlee || '') to get rid of annoying "might be undefined" error
+                const filteredPosts = nonFilteredPosts.filter((post : PostModalObj) => (post.title || '').toLowerCase().includes(filteredTerm));
                 setPosts(filteredPosts);
             }
         }, 500)

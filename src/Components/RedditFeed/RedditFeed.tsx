@@ -33,8 +33,8 @@ const RedditFeed = () => {
       
 
     //states for our componnet
-    const [posts, setPosts] = useState([{}]);
-    const [nonFilteredPosts, setNonFilteredPosts] = useState([{}]);
+    const [posts, setPosts] = useState<PostModalObj[]>([{}]);
+    const [nonFilteredPosts, setNonFilteredPosts] = useState<PostModalObj[]>([{}]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState<PostModalObj>({});
     const [filterTerm, setFilterTerm] = useState("");
@@ -74,20 +74,21 @@ const RedditFeed = () => {
         setSelectedPost({});
     }
 
-   /* const filterPosts = (event:any) => {
-        const termToFilterOn : string = event.target.value;
+   const filterPosts = (event:any) => {
+        const termToFilterOn : string = event;
         setFilterTerm(termToFilterOn);
         if(!termToFilterOn || termToFilterOn === ""){
             setPosts(nonFilteredPosts);
         }
         else{
-            const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(termToFilterOn.toLowerCase()));
-            console.log('filtered posts is :' + filterPosts);
+            const filteredTerm : string = termToFilterOn.toLowerCase();
+            const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(filteredTerm));
             setPosts(filteredPosts);
         }
-    } */
+    }
 
     //debounce function
+    /*
     const filterPostsDebounceVersion = useCallback(
         debounce(filterTerm => {
             if(!filterTerm || filterTerm === ""){
@@ -100,7 +101,7 @@ const RedditFeed = () => {
                 const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(filteredTerm));
                 setPosts(filteredPosts);
             }
-        }, 500)
+        }, 1000)
     ,[]);
     
 
@@ -108,7 +109,7 @@ const RedditFeed = () => {
         setFilterTerm(event.target.value);
         filterPostsDebounceVersion(event.target.value)
     }
-    
+    */
 
     //render object
     return (
@@ -120,7 +121,8 @@ const RedditFeed = () => {
                         className="border border-black rounded w-10/12 md:w-6/12 p-2 bg-white"
                         type="text"
                         value={filterTerm}
-                        onChange={debouncedChangeHandler}
+                        //onChange={debouncedChangeHandler}
+                        onChange={(e) => filterPosts(e.target.value)}
                         placeholder="Filter by title"
                     ></input>
                  </div>

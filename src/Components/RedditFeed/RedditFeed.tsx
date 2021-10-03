@@ -33,7 +33,7 @@ const RedditFeed = () => {
       
 
     //states for our componnet
-    const [posts, setPosts] = useState([{}]);
+    const [posts, setPosts] = useState<PostModalObj[]>([{}]);
     const [nonFilteredPosts, setNonFilteredPosts] = useState<PostModalObj[]>([{}]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState<PostModalObj>({});
@@ -74,8 +74,21 @@ const RedditFeed = () => {
         setSelectedPost({});
     }
 
+   const filterPosts = (event:any) => {
+        const termToFilterOn : string = event;
+        setFilterTerm(termToFilterOn);
+        if(!termToFilterOn || termToFilterOn === ""){
+            setPosts(nonFilteredPosts);
+        }
+        else{
+            const filteredTerm : string = termToFilterOn.toLowerCase();
+            const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(filteredTerm));
+            setPosts(filteredPosts);
+        }
+    }
 
     //debounce function
+    /*
     const filterPostsDebounceVersion = useCallback(
         debounce(filterTerm => {
             if(!filterTerm || filterTerm === ""){
@@ -85,11 +98,10 @@ const RedditFeed = () => {
             else{
                 //filter for search term
                 const filteredTerm : string = filterTerm.toLowerCase();
-                //doing (post.titlee || '') to get rid of annoying "might be undefined" error
-                const filteredPosts = nonFilteredPosts.filter((post : PostModalObj) => (post.title || '').toLowerCase().includes(filteredTerm));
+                const filteredPosts = nonFilteredPosts.filter((post : any) => post.title.toLowerCase().includes(filteredTerm));
                 setPosts(filteredPosts);
             }
-        }, 500)
+        }, 1000)
     ,[]);
     
 
@@ -97,7 +109,7 @@ const RedditFeed = () => {
         setFilterTerm(event.target.value);
         filterPostsDebounceVersion(event.target.value)
     }
-    
+    */
 
     //render object
     return (
@@ -109,7 +121,8 @@ const RedditFeed = () => {
                         className="border border-black rounded w-10/12 md:w-6/12 p-2 bg-white"
                         type="text"
                         value={filterTerm}
-                        onChange={debouncedChangeHandler}
+                        //onChange={debouncedChangeHandler}
+                        onChange={(e) => filterPosts(e.target.value)}
                         placeholder="Filter by title"
                     ></input>
                  </div>

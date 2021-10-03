@@ -20,7 +20,7 @@
   },
   "engines": { "npm": "6.x", "node": "12.x" },
   "scripts": {
-    "start": "craco start",
+    "start": "serve -s build",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

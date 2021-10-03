@@ -1,8 +1,8 @@
 import axios from "axios";
 
 async function getRedditPosts(){
-    const url : string = `http://www.reddit.com/r/pics/.json?jsonp=`;
-    const REDDIT_BASE_URL = 'http://www.reddit.com'
+    const url : string = `https://www.reddit.com/r/pics/.json?jsonp=`;
+    const REDDIT_BASE_URL = 'https://www.reddit.com'
 
     //our return object
     let redditPicsObj : Array<any> = [{}];
